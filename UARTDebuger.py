@@ -11,12 +11,14 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
     def __init__(self):
         super(mywindow,self).__init__()
         self.setupUi(self)
+        self.comboBox_port.mysignal.connect(self.rxHandle)
         self.pushButton_openport.clicked.connect(self.ButtonHandle)
     def ButtonHandle(self):
         ser = serial.Serial('COM7')
         self.textBrowser_sysinf.setText(ser.name)
         ser.write(b'hello')
-        
+    def rxHandle(self):
+        print("received signal")
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     myshow = mywindow()

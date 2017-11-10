@@ -10,9 +10,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
 class MyComboBox(QtWidgets.QComboBox):
-    def mousePressEvent(self,e):
-        print ("mousePressEvent") 
-
+    mysignal = pyqtSignal()
+    def mousePressEvent(self, event):
+        print("emit")
+        self.mysignal.emit()
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
