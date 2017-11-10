@@ -7,6 +7,11 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
+
+class MyComboBox(QtWidgets.QComboBox):
+    def mousePressEvent(self,e):
+        print ("mousePressEvent") 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -17,7 +22,7 @@ class Ui_MainWindow(object):
         self.widget_params = QtWidgets.QWidget(self.centralwidget)
         self.widget_params.setGeometry(QtCore.QRect(10, 10, 171, 521))
         self.widget_params.setObjectName("widget_params")
-        self.comboBox_port = QtWidgets.QComboBox(self.widget_params)
+        self.comboBox_port = MyComboBox(self.widget_params)
         self.comboBox_port.setGeometry(QtCore.QRect(10, 30, 151, 22))
         self.comboBox_port.setObjectName("comboBox_port")
         self.comboBox_baudrate = QtWidgets.QComboBox(self.widget_params)
