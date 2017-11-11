@@ -4,7 +4,7 @@ import serial
 import serial.tools.list_ports
 from PyQt5 import QtWidgets, QtCore, QtSerialPort
 from PyQt5.QtCore import QCoreApplication
-
+from PyQt5.QtCore import QVariant
 from UI import Ui_MainWindow
 
 class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
@@ -12,12 +12,22 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         super(mywindow,self).__init__()
         self.setupUi(self)
         #initialize the UART parameter selection UI
-        self.comboBox_port.mysignal.connect(self.comboBox_port_DeviceSearch_Handle)
-        self.comboBox_port.activated.connect(self.comboBox_port_DeviceSelection_Handle)
+        self.comboBox_port.mysignal.connect(self.comboBox_port_Search_Handle)
+        self.comboBox_port.activated.connect(self.comboBox_port_Selection_Handle)
+
+        self.comboBox_baudrate.addItem("600",600)
+        self.comboBox_baudrate.addItem("1200",1200)
+        self.comboBox_baudrate.addItem("4800",4800)
+        self.comboBox_baudrate.addItem("9600",9600)
+        self.comboBox_baudrate.addItem("19200",19200)
+        self.comboBox_baudrate.addItem("38400",38400)
+        self.comboBox_baudrate.addItem("57600",57600)
+        self.comboBox_baudrate.addItem("115200",115200)
+        self.comboBox_baudrate.activated.connect(self.comboBox_baudrate_Selection_Handle)
         
         self.pushButton_openport.clicked.connect(self.pushButton_openport_Handle)
 
-    def comboBox_port_DeviceSearch_Handle(self):
+    def comboBox_port_Search_Handle(self):
         self.comboBox_port.clear()
         port_list = list(serial.tools.list_ports.comports())
         length = len(port_list)
@@ -28,9 +38,14 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
                 port_temp = list(port_list[i])
                 print("check which port was really used >",port_temp[0])
                 self.comboBox_port.addItem(port_temp[0])
-    def comboBox_port_DeviceSelection_Handle(self):
+                
+    def comboBox_port_Selection_Handle(self):
         ActivePortName = self.comboBox_port.currentText()
         print("selected",ActivePortName)
+        
+    def comboBox_baudrate_Selection_Handle(self):
+        BaudRate = self.comboBox_baudrate.currentData()
+        print("baudrate=", BaudRate)
         
     def pushButton_openport_Handle(self):
         ser = serial.Serial('COM7')
