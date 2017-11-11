@@ -14,6 +14,7 @@ class MyComboBox(QtWidgets.QComboBox):
     def mousePressEvent(self, event):
         print("emit")
         self.mysignal.emit()
+        QtWidgets.QComboBox.mousePressEvent(self, event)
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")

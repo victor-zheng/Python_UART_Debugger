@@ -18,6 +18,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.textBrowser_sysinf.setText(ser.name)
         ser.write(b'hello')
     def pushButton_openport_Handle(self):
+        self.comboBox_port.clear()
         port_list = list(serial.tools.list_ports.comports())
         length = len(port_list)
         if  length <= 0:
@@ -26,6 +27,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
             for i in range(0,length):
                 port_temp = list(port_list[i])
                 print("check which port was really used >",port_temp[0])
+                self.comboBox_port.addItem(port_temp[0])
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     myshow = mywindow()
