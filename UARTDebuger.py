@@ -24,6 +24,20 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.comboBox_baudrate.addItem("57600",57600)
         self.comboBox_baudrate.addItem("115200",115200)
         self.comboBox_baudrate.activated.connect(self.comboBox_baudrate_Selection_Handle)
+
+        self.comboBox_bytesize.addItem("4",4)
+        self.comboBox_bytesize.addItem("5",5)
+        self.comboBox_bytesize.addItem("6",6)
+        self.comboBox_bytesize.addItem("7",7)
+        self.comboBox_bytesize.addItem("8",8)
+        self.comboBox_bytesize.activated.connect(self.comboBox_bytesize_Selection_Handle)
+        
+        self.comboBox_parity.addItem("NONE",0)
+        self.comboBox_parity.addItem("EVEN",1)
+        self.comboBox_parity.addItem("ODD",2)
+        self.comboBox_parity.activated.connect(self.comboBox_parity_Selection_Handle)
+
+        
         
         self.pushButton_openport.clicked.connect(self.pushButton_openport_Handle)
 
@@ -41,12 +55,20 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
                 
     def comboBox_port_Selection_Handle(self):
         ActivePortName = self.comboBox_port.currentText()
-        print("selected",ActivePortName)
+        print("port=",ActivePortName)
         
     def comboBox_baudrate_Selection_Handle(self):
         BaudRate = self.comboBox_baudrate.currentData()
         print("baudrate=", BaudRate)
         
+    def comboBox_bytesize_Selection_Handle(self):
+        ByteSize = self.comboBox_bytesize.currentData()
+        print("bytesize=", ByteSize)
+        
+    def comboBox_parity_Selection_Handle(self):
+        Parity = self.comboBox_parity.currentData()
+        print("parity=", Parity)
+        
     def pushButton_openport_Handle(self):
         ser = serial.Serial('COM7')
         self.textBrowser_sysinf.setText(ser.name)
