@@ -37,7 +37,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.comboBox_parity.addItem("ODD",2)
         self.comboBox_parity.activated.connect(self.comboBox_parity_Selection_Handle)
 
-        
+        self.comboBox_stopbits.addItem("1",0)
+        self.comboBox_stopbits.addItem("1.5",1)
+        self.comboBox_stopbits.addItem("2",2)
+        self.comboBox_stopbits.activated.connect(self.comboBox_stopbits_Selection_Handle)        
         
         self.pushButton_openport.clicked.connect(self.pushButton_openport_Handle)
 
@@ -68,6 +71,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
     def comboBox_parity_Selection_Handle(self):
         Parity = self.comboBox_parity.currentData()
         print("parity=", Parity)
+        
+    def comboBox_stopbits_Selection_Handle(self):
+        StopBits = self.comboBox_stopbits.currentData()
+        print("stopbits=", StopBits)
         
     def pushButton_openport_Handle(self):
         ser = serial.Serial('COM7')
