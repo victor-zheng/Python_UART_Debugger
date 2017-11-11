@@ -20,14 +20,12 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
     def pushButton_openport_Handle(self):
         port_list = list(serial.tools.list_ports.comports())
         length = len(port_list)
-        if  length<= 0:
+        if  length <= 0:
             print("The Serial port can't find!")
         else:
-            print(length)
-            port_list_0 =list(port_list[0])
-            port_serial = port_list_0[0]
-            ser = serial.Serial(port_serial,9600,timeout = 60)
-            print("check which port was really used >",ser.name)
+            for i in range(0,length):
+                port_temp = list(port_list[i])
+                print("check which port was really used >",port_temp[0])
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     myshow = mywindow()
