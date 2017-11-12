@@ -25,11 +25,11 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.comboBox_baudrate.addItem("115200",115200)
         self.comboBox_baudrate.activated.connect(self.comboBox_baudrate_Selection_Handle)
 
-        self.comboBox_bytesize.addItem("4",4)
-        self.comboBox_bytesize.addItem("5",5)
-        self.comboBox_bytesize.addItem("6",6)
-        self.comboBox_bytesize.addItem("7",7)
-        self.comboBox_bytesize.addItem("8",8)
+        self.comboBox_bytesize.addItem("4 bit",4)
+        self.comboBox_bytesize.addItem("5 bit",5)
+        self.comboBox_bytesize.addItem("6 bit",6)
+        self.comboBox_bytesize.addItem("7 bit",7)
+        self.comboBox_bytesize.addItem("8 bit",8)
         self.comboBox_bytesize.activated.connect(self.comboBox_bytesize_Selection_Handle)
         
         self.comboBox_parity.addItem("NONE",0)
@@ -37,10 +37,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.comboBox_parity.addItem("ODD",2)
         self.comboBox_parity.activated.connect(self.comboBox_parity_Selection_Handle)
 
-        self.comboBox_stopbits.addItem("1",0)
-        self.comboBox_stopbits.addItem("1.5",1)
-        self.comboBox_stopbits.addItem("2",2)
-        self.comboBox_stopbits.activated.connect(self.comboBox_stopbits_Selection_Handle)        
+        self.comboBox_stopbits.addItem("1 bit",0)
+        self.comboBox_stopbits.addItem("1.5 bit",1)
+        self.comboBox_stopbits.addItem("2 bit",2)
+        self.comboBox_stopbits.activated.connect(self.comboBox_stopbits_Selection_Handle)
         
         self.pushButton_openport.clicked.connect(self.pushButton_openport_Handle)
 
@@ -75,7 +75,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
     def comboBox_stopbits_Selection_Handle(self):
         StopBits = self.comboBox_stopbits.currentData()
         print("stopbits=", StopBits)
-        
+        
+    def comboBox_timeout_Input_Handle(self):
+        print("timeout=")
+        
     def pushButton_openport_Handle(self):
         ser = serial.Serial('COM7')
         self.textBrowser_sysinf.setText(ser.name)
