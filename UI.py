@@ -12,7 +12,6 @@ from PyQt5.QtCore import pyqtSignal
 class MyComboBox(QtWidgets.QComboBox):
     mysignal = pyqtSignal()
     def mousePressEvent(self, event):
-        print("emit")
         self.mysignal.emit()
         QtWidgets.QComboBox.mousePressEvent(self, event)
         

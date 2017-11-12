@@ -7,6 +7,8 @@ from PyQt5.QtCore import QVariant
 from UI import Ui_MainWindow
 
 class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
+    global ser
+    ser = serial.Serial()
     def __init__(self):
         super(mywindow,self).__init__()
         self.setupUi(self)
@@ -23,30 +25,41 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.comboBox_baudrate.addItem("57600",57600)
         self.comboBox_baudrate.addItem("115200",115200)
         self.comboBox_baudrate.activated.connect(self.comboBox_baudrate_Selection_Handle)
+        self.comboBox_baudrate.setCurrentText("9600")
+        ser.baudrate = 9600
 
-        self.comboBox_bytesize.addItem("4 bit",4)
         self.comboBox_bytesize.addItem("5 bit",5)
         self.comboBox_bytesize.addItem("6 bit",6)
         self.comboBox_bytesize.addItem("7 bit",7)
         self.comboBox_bytesize.addItem("8 bit",8)
         self.comboBox_bytesize.activated.connect(self.comboBox_bytesize_Selection_Handle)
+        self.comboBox_bytesize.setCurrentText("8 bit")
+        ser.bytesize = serial.EIGHTBITS
         
         self.comboBox_parity.addItem("NONE",0)
         self.comboBox_parity.addItem("EVEN",1)
         self.comboBox_parity.addItem("ODD",2)
         self.comboBox_parity.activated.connect(self.comboBox_parity_Selection_Handle)
+        self.comboBox_parity.setCurrentText("NONE")
+        ser.parity = serial.PARITY_NONE
 
         self.comboBox_stopbits.addItem("1 bit",0)
         self.comboBox_stopbits.addItem("1.5 bit",1)
         self.comboBox_stopbits.addItem("2 bit",2)
         self.comboBox_stopbits.activated.connect(self.comboBox_stopbits_Selection_Handle)
+        self.comboBox_stopbits.setCurrentText("1 bit")
+        ser.stopbits = serial.STOPBITS_ONE
 
         self.lineEdit_timeout.textChanged.connect(self.lineEdit_timeout_Input_Handle)
         self.lineEdit_timeout.setText("0")
+        ser.timeout = 0
 
         self.checkBox_xonxoff.stateChanged.connect(self.checkBox_xonxoff_Input_Handle)
         self.checkBox_rtscts.stateChanged.connect(self.checkBox_rtscts_Input_Handle)
         self.checkBox_dsrdtr.stateChanged.connect(self.checkBox_dsrdtr_Input_Handle)
+        self.xonxoff  = False
+        self.rtscts = False
+        self.dsrdtr = False
         
         self.pushButton_openport.clicked.connect(self.pushButton_openport_Handle)
 
@@ -54,25 +67,31 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.comboBox_port.clear()
         port_list = list(serial.tools.list_ports.comports())
         length = len(port_list)
-        if  length <= 0:
-            print("The Serial port can't find!")
-        else:
+        if  length > 0:
             for i in range(0,length):
                 port_temp = list(port_list[i])
-                print("check which port was really used >",port_temp[0])
                 self.comboBox_port.addItem(port_temp[0])
                 
     def comboBox_port_Selection_Handle(self):
-        ActivePortName = self.comboBox_port.currentText()
-        print("port=",ActivePortName)
+        ser.port = self.comboBox_port.currentText()
+        print("port=",ser.port)
         
     def comboBox_baudrate_Selection_Handle(self):
-        BaudRate = self.comboBox_baudrate.currentData()
-        print("baudrate=", BaudRate)
+        ser.baudrate = self.comboBox_baudrate.currentData()
+        print("baudrate=", ser.baudrate)
         
     def comboBox_bytesize_Selection_Handle(self):
-        ByteSize = self.comboBox_bytesize.currentData()
-        print("bytesize=", ByteSize)
+        bytesize = self.comboBox_bytesize.currentData()
+        if bytesize == 5:
+            ser.bytesize = serial.FIVEBITS
+        elif bytesize == 6:
+            ser.bytesize = serial.SIXBITS
+        elif bytesize == 7:
+            ser.bytesize = serial.SEVENBITS
+        elif bytesize == 8:
+            ser.bytesize = serial.EIGHTBITS
+
+        print("bytesize=", ser.bytesize)
         
     def comboBox_parity_Selection_Handle(self):
         Parity = self.comboBox_parity.currentData()
@@ -102,9 +121,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         print("dsrdtr=", Dsrdtr)
         
     def pushButton_openport_Handle(self):
-        ser = serial.Serial('COM7')
-        self.textBrowser_sysinf.setText(ser.name)
-        ser.write(b'hello')
+        print("open")
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     myshow = mywindow()
