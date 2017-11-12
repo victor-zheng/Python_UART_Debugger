@@ -1,5 +1,4 @@
 import sys#系统相关的信息模块
-
 import serial
 import serial.tools.list_ports
 from PyQt5 import QtWidgets, QtCore, QtSerialPort
@@ -41,6 +40,13 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.comboBox_stopbits.addItem("1.5 bit",1)
         self.comboBox_stopbits.addItem("2 bit",2)
         self.comboBox_stopbits.activated.connect(self.comboBox_stopbits_Selection_Handle)
+
+        self.lineEdit_timeout.textChanged.connect(self.lineEdit_timeout_Input_Handle)
+        self.lineEdit_timeout.setText("0")
+
+        self.checkBox_xonxoff.stateChanged.connect(self.checkBox_xonxoff_Input_Handle)
+        self.checkBox_rtscts.stateChanged.connect(self.checkBox_rtscts_Input_Handle)
+        self.checkBox_dsrdtr.stateChanged.connect(self.checkBox_dsrdtr_Input_Handle)
         
         self.pushButton_openport.clicked.connect(self.pushButton_openport_Handle)
 
@@ -76,8 +82,24 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         StopBits = self.comboBox_stopbits.currentData()
         print("stopbits=", StopBits)
         
-    def comboBox_timeout_Input_Handle(self):
-        print("timeout=")
+    def lineEdit_timeout_Input_Handle(self):
+        str1 = self.lineEdit_timeout.text()
+        if str1.isdigit():
+            Timeout = int(str1)
+            print("timeout=",Timeout," seconds")
+        else:
+            print("timeout=invalid input")
+    def checkBox_xonxoff_Input_Handle(self):
+        Xonxoff = self.checkBox_xonxoff.checkState()
+        print("xonxoff=", Xonxoff)
+        
+    def checkBox_rtscts_Input_Handle(self):
+        Rtscts = self.checkBox_rtscts.checkState()
+        print("rtscts=", Rtscts)
+        
+    def checkBox_dsrdtr_Input_Handle(self):
+        Dsrdtr = self.checkBox_dsrdtr.checkState()
+        print("dsrdtr=", Dsrdtr)
         
     def pushButton_openport_Handle(self):
         ser = serial.Serial('COM7')

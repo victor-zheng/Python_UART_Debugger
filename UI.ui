@@ -609,7 +609,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="lineEdit_timeout">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -617,6 +617,9 @@
       <width>151</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
