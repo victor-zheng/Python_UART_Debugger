@@ -62,6 +62,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         self.dsrdtr = False
         
         self.pushButton_openport.clicked.connect(self.pushButton_openport_Handle)
+        self.pushButton_closeport.clicked.connect(self.pushButton_closeport_Handle)
 
     def comboBox_port_Search_Handle(self):
         self.comboBox_port.clear()
@@ -75,11 +76,14 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
     def comboBox_port_Selection_Handle(self):
         ser.port = self.comboBox_port.currentText()
         print("port=",ser.port)
-        
+            
     def comboBox_baudrate_Selection_Handle(self):
         ser.baudrate = self.comboBox_baudrate.currentData()
         print("baudrate=", ser.baudrate)
-        
+        if ser.is_open:
+            settings = ser.get_settings()
+            ser.apply_settings(settings)
+            
     def comboBox_bytesize_Selection_Handle(self):
         bytesize = self.comboBox_bytesize.currentData()
         if bytesize == 5:
@@ -90,38 +94,67 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
             ser.bytesize = serial.SEVENBITS
         elif bytesize == 8:
             ser.bytesize = serial.EIGHTBITS
-
         print("bytesize=", ser.bytesize)
-        
+        if ser.is_open:
+            settings = ser.get_settings()
+            ser.apply_settings(settings)
+            
     def comboBox_parity_Selection_Handle(self):
         Parity = self.comboBox_parity.currentData()
         print("parity=", Parity)
-        
+        if ser.is_open:
+            settings = ser.get_settings()
+            ser.apply_settings(settings)
+            
     def comboBox_stopbits_Selection_Handle(self):
         StopBits = self.comboBox_stopbits.currentData()
         print("stopbits=", StopBits)
-        
+        if ser.is_open:
+            settings = ser.get_settings()
+            ser.apply_settings(settings)
+            
     def lineEdit_timeout_Input_Handle(self):
         str1 = self.lineEdit_timeout.text()
         if str1.isdigit():
-            Timeout = int(str1)
+            Timeout = float(str1)
             print("timeout=",Timeout," seconds")
         else:
             print("timeout=invalid input")
+        if ser.is_open:
+            settings = ser.get_settings()
+            ser.apply_settings(settings)
+            
     def checkBox_xonxoff_Input_Handle(self):
         Xonxoff = self.checkBox_xonxoff.checkState()
         print("xonxoff=", Xonxoff)
-        
+        if ser.is_open:
+            settings = ser.get_settings()
+            ser.apply_settings(settings)
+            
     def checkBox_rtscts_Input_Handle(self):
         Rtscts = self.checkBox_rtscts.checkState()
         print("rtscts=", Rtscts)
+        if ser.is_open:
+            settings = ser.get_settings()
+            ser.apply_settings(settings)        
         
     def checkBox_dsrdtr_Input_Handle(self):
         Dsrdtr = self.checkBox_dsrdtr.checkState()
         print("dsrdtr=", Dsrdtr)
-        
+        if ser.is_open:
+            settings = ser.get_settings()
+            ser.apply_settings(settings)
+            
     def pushButton_openport_Handle(self):
-        print("open")
+        if ser.is_open:
+            print("serial already opened")
+        else:
+            ser.open()
+            print("opening serial")
+    def pushButton_closeport_Handle(self):
+        if ser.is_open:
+            ser.close()
+            print("closing serial")
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
