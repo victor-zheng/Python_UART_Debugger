@@ -12,7 +12,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
     def __init__(self):
         super(mywindow,self).__init__()
         self.setupUi(self)
-        #initialize the UART parameter selection UI
+        
+        #***************Parameter Setting Start*****************************************
         self.comboBox_port.mysignal.connect(self.comboBox_port_Search_Handle)
         self.comboBox_port.activated.connect(self.comboBox_port_Selection_Handle)
 
@@ -63,6 +64,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         
         self.pushButton_openport.clicked.connect(self.pushButton_openport_Handle)
         self.pushButton_closeport.clicked.connect(self.pushButton_closeport_Handle)
+
+        #********************Parameter Setting End**************************************
+        self.pushButton_send.clicked.connect(self.pushButton_send_Handle)
+        
 
     def comboBox_port_Search_Handle(self):
         self.comboBox_port.clear()
@@ -155,6 +160,14 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         if ser.is_open:
             ser.close()
             print("closing serial")
+    def pushButton_send_Handle(self):
+        if ser.is_open:
+            print(self.lcdNumber_tx.intValue())
+            txbuf = bytearray(b'\xAA\x55')
+            cnt = ser.write(txbuf)
+            cnt = cnt + self.lcdNumber_tx.intValue()
+            self.lcdNumber_tx.display(cnt)
+            print(cnt)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
