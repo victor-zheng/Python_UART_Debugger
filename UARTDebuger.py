@@ -1,14 +1,20 @@
 import sys#系统相关的信息模块
+import threading
+from threading import Timer
+import time
+import sched
 import serial
 import serial.tools.list_ports
 from PyQt5 import QtWidgets, QtCore, QtSerialPort
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtCore import QVariant
+from PyQt5.QtCore import QTimer
 from UI import Ui_MainWindow
 
 class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
     global ser
     ser = serial.Serial()
+
     def __init__(self):
         super(mywindow,self).__init__()
         self.setupUi(self)
@@ -67,8 +73,22 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
 
         #********************Parameter Setting End**************************************
         self.pushButton_send.clicked.connect(self.pushButton_send_Handle)
+        self.pushButton_reset_tx.clicked.connect(self.pushButton_reset_tx_Handle)
         
-
+        global timer_rx
+        timer_rx = QTimer()
+        timer_rx.setInterval(500)
+        timer_rx.timeout.connect(self.looptimer_rx_Handle)
+        self.radioButton_disable_receive.clicked.connect(timer_rx.stop)
+        self.radioButton_enable_receive.clicked.connect(timer_rx.start)
+        
+        global timer_tx
+        timer_tx = QTimer()
+        timer_tx.setInterval(1000)
+        timer_tx.timeout.connect(self.looptimer_tx_Handle)
+        self.radioButton_manual_send.clicked.connect(timer_tx.stop)
+        self.radioButton_auto_send.clicked.connect(timer_tx.start)
+        
     def comboBox_port_Search_Handle(self):
         self.comboBox_port.clear()
         port_list = list(serial.tools.list_ports.comports())
@@ -162,12 +182,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
             print("closing serial")
     def pushButton_send_Handle(self):
         if ser.is_open:
-            print(self.lcdNumber_tx.intValue())
             txbuf = bytearray(b'\xAA\x55')
             cnt = ser.write(txbuf)
             cnt = cnt + self.lcdNumber_tx.intValue()
             self.lcdNumber_tx.display(cnt)
             print(cnt)
+    def pushButton_reset_tx_Handle(self):
+        self.lcdNumber_tx.display(0)
+        if ser.is_open:
+            ser.reset_output_buffer()
+    def looptimer_rx_Handle(self):
+        print("rx")
+    def looptimer_tx_Handle(self):
+        print("tx")
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

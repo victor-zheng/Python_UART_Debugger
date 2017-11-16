@@ -150,45 +150,6 @@
      <string>Status</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_disable_receive">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>120</y>
-      <width>151</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>disable receive</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_enable_receive">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>100</y>
-      <width>151</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>enable receive</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_hex_display">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>100</y>
-      <width>131</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>hex display</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_reset_rx">
     <property name="geometry">
      <rect>
@@ -202,32 +163,6 @@
      <string>Reset</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_ascii_display">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>120</y>
-      <width>131</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ascii dispaly</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_ascii_send">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>330</y>
-      <width>131</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ascii send</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_reset_tx">
     <property name="geometry">
      <rect>
@@ -239,45 +174,6 @@
     </property>
     <property name="text">
      <string>Reset</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_manual_send">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>330</y>
-      <width>151</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>manual send</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_hex_send">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>310</y>
-      <width>131</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>hex send</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_auto_send">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>310</y>
-      <width>151</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>auto send</string>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -630,6 +526,198 @@
      <string>Close Port</string>
     </property>
    </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>100</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <widget class="QRadioButton" name="radioButton_enable_receive">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>151</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>enable receive</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_disable_receive">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>151</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>disable receive</string>
+     </property>
+    </widget>
+    <zorder>line</zorder>
+    <zorder>radioButton_enable_receive</zorder>
+    <zorder>radioButton_disable_receive</zorder>
+   </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>310</y>
+      <width>120</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <widget class="QRadioButton" name="radioButton_auto_send">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>151</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>auto send</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_manual_send">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>151</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>manual send</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_3" native="true">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>100</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <widget class="QRadioButton" name="radioButton_hex_display">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>111</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>hex display</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_ascii_display">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>131</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ascii dispaly</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="widget_4" native="true">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>310</y>
+      <width>120</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <widget class="QRadioButton" name="radioButton_hex_send">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>131</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>hex send</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_ascii_send">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>131</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ascii send</string>
+     </property>
+    </widget>
+    <zorder>radioButton_hex_send</zorder>
+    <zorder>radioButton_ascii_send</zorder>
+    <zorder>textEdit_transmit</zorder>
+   </widget>
+   <zorder>textEdit_transmit</zorder>
+   <zorder>textBrowser_receive</zorder>
+   <zorder>lcdNumber_rx</zorder>
+   <zorder>lcdNumber_tx</zorder>
+   <zorder>textBrowser_status</zorder>
+   <zorder>pushButton_send</zorder>
+   <zorder>pushButton_cmd1</zorder>
+   <zorder>pushButton_cmd2</zorder>
+   <zorder>pushButton_cmd3</zorder>
+   <zorder>label_9</zorder>
+   <zorder>pushButton_reset_rx</zorder>
+   <zorder>pushButton_reset_tx</zorder>
+   <zorder>line</zorder>
+   <zorder>line_2</zorder>
+   <zorder>line_3</zorder>
+   <zorder>checkBox_rtscts</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label</zorder>
+   <zorder>comboBox_stopbits</zorder>
+   <zorder>comboBox_baudrate</zorder>
+   <zorder>checkBox_dsrdtr</zorder>
+   <zorder>label_2</zorder>
+   <zorder>checkBox_xonxoff</zorder>
+   <zorder>label_5</zorder>
+   <zorder>pushButton_openport</zorder>
+   <zorder>label_4</zorder>
+   <zorder>comboBox_port</zorder>
+   <zorder>comboBox_bytesize</zorder>
+   <zorder>comboBox_parity</zorder>
+   <zorder>label_3</zorder>
+   <zorder>line_4</zorder>
+   <zorder>line_5</zorder>
+   <zorder>line_6</zorder>
+   <zorder>line_7</zorder>
+   <zorder>line_8</zorder>
+   <zorder>line_9</zorder>
+   <zorder>lineEdit_timeout</zorder>
+   <zorder>pushButton_closeport</zorder>
+   <zorder>widget</zorder>
+   <zorder>widget_2</zorder>
+   <zorder>widget_3</zorder>
+   <zorder>widget_4</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
