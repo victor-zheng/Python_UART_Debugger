@@ -1,8 +1,6 @@
 import sys#系统相关的信息模块
 import threading
 from threading import Timer
-import time
-import sched
 import serial
 import serial.tools.list_ports
 from PyQt5 import QtWidgets, QtCore, QtSerialPort
@@ -74,6 +72,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         #********************Parameter Setting End**************************************
         self.pushButton_send.clicked.connect(self.pushButton_send_Handle)
         self.pushButton_reset_tx.clicked.connect(self.pushButton_reset_tx_Handle)
+        self.pushButton_reset_rx.clicked.connect(self.pushButton_reset_rx_Handle)
         
         global timer_rx
         timer_rx = QTimer()
@@ -192,7 +191,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         if ser.is_open:
             ser.reset_output_buffer()
     def looptimer_rx_Handle(self):
-        print("rx")
+        rx_num = ser.inWaiting()
+        if rx_num != 0:
+            data = ser.read(rx_num)
+            for i in range(0,rx_num):
+                self.textBrowser_receive.append(hex(data[i]))
+            totalnum = rx_num + self.lcdNumber_rx.intValue()
+            self.lcdNumber_rx.display(totalnum)
+            
+    def pushButton_reset_rx_Handle(self):
+        self.lcdNumber_rx.display(0)
+        if ser.is_open:
+            ser.reset_input_buffer()
+            
     def looptimer_tx_Handle(self):
         print("tx")
 
