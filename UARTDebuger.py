@@ -195,12 +195,18 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         if rx_num != 0:
             data = ser.read(rx_num)
             for i in range(0,rx_num):
-                self.textBrowser_receive.append(hex(data[i]))
+                hexstr = hex(data[i])
+                if hexstr.split("x")[1].isalpha():
+                    newstr = hexstr.split("x")[0] + "x" + hexstr.split("x")[1].upper()
+                else:
+                    newstr = hexstr                                                                           
+                self.textBrowser_receive.insertPlainText(newstr + " ")
             totalnum = rx_num + self.lcdNumber_rx.intValue()
             self.lcdNumber_rx.display(totalnum)
             
     def pushButton_reset_rx_Handle(self):
         self.lcdNumber_rx.display(0)
+        self.textBrowser_receive.clear()
         if ser.is_open:
             ser.reset_input_buffer()
             
