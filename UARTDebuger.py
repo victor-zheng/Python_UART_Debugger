@@ -87,7 +87,9 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         timer_tx.timeout.connect(self.looptimer_tx_Handle)
         self.radioButton_manual_send.clicked.connect(timer_tx.stop)
         self.radioButton_auto_send.clicked.connect(timer_tx.start)
-        
+
+        self.radioButton_enable_receive.setChecked()
+        self.radioButton_hex_display.setChecked()
     def comboBox_port_Search_Handle(self):
         self.comboBox_port.clear()
         port_list = list(serial.tools.list_ports.comports())
@@ -180,8 +182,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
             ser.close()
             print("closing serial")
     def pushButton_send_Handle(self):
+        send_data = self.textEdit_transmit.toPlainText()
+        print(send_data)
         if ser.is_open:
-            txbuf = bytearray(b'\xAA\x55')
+            txbuf = bytearray(b'\x31\x32\x33')
             cnt = ser.write(txbuf)
             cnt = cnt + self.lcdNumber_tx.intValue()
             self.lcdNumber_tx.display(cnt)
@@ -194,13 +198,17 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         rx_num = ser.inWaiting()
         if rx_num != 0:
             data = ser.read(rx_num)
-            for i in range(0,rx_num):
-                hexstr = hex(data[i])
-                if hexstr.split("x")[1].isalpha():
-                    newstr = hexstr.split("x")[0] + "x" + hexstr.split("x")[1].upper()
-                else:
-                    newstr = hexstr                                                                           
-                self.textBrowser_receive.insertPlainText(newstr + " ")
+            if self.radioButton_hex_display.isChecked(): 
+                for i in range(0,rx_num):
+                    hexstr = hex(data[i])
+                    if hexstr.split("x")[1].isalpha():
+                        newstr = hexstr.split("x")[0] + "x" + hexstr.split("x")[1].upper()
+                    else:
+                        newstr = hexstr                                                                           
+                    self.textBrowser_receive.insertPlainText(newstr + " ")
+            elif self.radioButton_ascii_display.isChecked():
+                dis_str = str(data, encoding = "utf-8")  
+                self.textBrowser_receive.insertPlainText(dis_str)
             totalnum = rx_num + self.lcdNumber_rx.intValue()
             self.lcdNumber_rx.display(totalnum)
             
