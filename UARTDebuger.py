@@ -178,23 +178,42 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         else:
             ser.open()
             print("opening serial")
+            
     def pushButton_closeport_Handle(self):
         if ser.is_open:
             ser.close()
             print("closing serial")
+            
     def pushButton_send_Handle(self):
-        send_data = self.textEdit_transmit.toPlainText()
-        print(send_data)
+        send_str = self.textEdit_transmit.toPlainText()
+        if self.radioButton_hex_send.isChecked():
+            send_list = send_str.split()
+            num = len(send_list)
+            print(send_list)
+            print(num)
+            str_temp = send_list[0]
+            for i in range(1,num):
+                str_temp = str_temp + send_list[i]
+            print(str_temp)
+            try:
+                send_bytes = bytes.fromhex(str_temp)
+            except:
+                print("invalid hex input")
+            
+        elif self.radioButton_ascii_send.isChecked():
+            send_bytes = bytes(send_str, encoding = "utf8")
         if ser.is_open:
-            txbuf = bytearray(b'\x31\x32\x33')
-            cnt = ser.write(txbuf)
-            cnt = cnt + self.lcdNumber_tx.intValue()
-            self.lcdNumber_tx.display(cnt)
-            print(cnt)
+            try:
+                cnt = ser.write(send_bytes)
+                cnt = cnt + self.lcdNumber_tx.intValue()
+                self.lcdNumber_tx.display(cnt)
+            except:
+                print("send data is null")
     def pushButton_reset_tx_Handle(self):
         self.lcdNumber_tx.display(0)
         if ser.is_open:
             ser.reset_output_buffer()
+            
     def looptimer_rx_Handle(self):
         if ser.is_open:
             rx_num = ser.inWaiting()
