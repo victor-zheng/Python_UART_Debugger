@@ -90,6 +90,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
 
         self.radioButton_enable_receive.setChecked(True)
         self.radioButton_hex_display.setChecked(True)
+        self.radioButton_manual_send.setChecked(True)
+        self.radioButton_hex_send.setChecked(True)
         timer_rx.start()
     def comboBox_port_Search_Handle(self):
         self.comboBox_port.clear()
@@ -218,6 +220,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
         if ser.is_open:
             rx_num = ser.inWaiting()
             if rx_num != 0:
+                self.textBrowser_receive.insertPlainText(" ")
                 data = ser.read(rx_num)
                 if self.radioButton_hex_display.isChecked(): 
                     for i in range(0,rx_num):
@@ -240,7 +243,31 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):#继承QWidget
             ser.reset_input_buffer()
             
     def looptimer_tx_Handle(self):
-        print("tx")
+        if self.radioButton_auto_send.isChecked():
+            send_str = self.textEdit_transmit.toPlainText()
+            if self.radioButton_hex_send.isChecked():
+                send_list = send_str.split()
+                num = len(send_list)
+                print(send_list)
+                print(num)
+                str_temp = send_list[0]
+                for i in range(1,num):
+                    str_temp = str_temp + send_list[i]
+                print(str_temp)
+                try:
+                    send_bytes = bytes.fromhex(str_temp)
+                except:
+                    print("invalid hex input")
+                
+            elif self.radioButton_ascii_send.isChecked():
+                send_bytes = bytes(send_str, encoding = "utf8")
+            if ser.is_open:
+                try:
+                    cnt = ser.write(send_bytes)
+                    cnt = cnt + self.lcdNumber_tx.intValue()
+                    self.lcdNumber_tx.display(cnt)
+                except:
+                    print("send data is null")
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
